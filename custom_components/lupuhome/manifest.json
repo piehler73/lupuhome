@@ -1,0 +1,11 @@
+{
+  "codeowners": ["@piehler73"],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/piehler73/lupuhome",
+  "domain": "lupuhome",
+  "iot_class": "cloud_polling",
+  "name": "Lupusec HomeAssistant Addon",
+  "requirements": [],
+  "version": "1.0.0"
+}

@@ -1,2 +1,3 @@
-# lupuhome
-Lupusec Integration for HomeAssistant
+# Lupusec HomeAssistant Addon for Home Assistant
+
+## Installation
