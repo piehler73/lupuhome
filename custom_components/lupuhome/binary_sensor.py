@@ -24,6 +24,10 @@ from homeassistant.const import (
     CONF_URL,
 )
 
+# Import Lupulib Library
+import lupulib
+
+
 # Import constants from lupuhome
 from .const import (
     ATTR_SENSORS,
