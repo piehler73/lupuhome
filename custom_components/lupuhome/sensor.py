@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # Import Lupulib Library
 import lupulib
-from lupulib.exceptions import LupusecException
+# from lupulib.exceptions import LupusecException
 
 # Import from HomeAssistant Core
 from homeassistant.core import HomeAssistant
