@@ -21,7 +21,6 @@ from homeassistant import core
 from homeassistant.components import persistent_notification
 from homeassistant.const import (
     CONF_IP_ADDRESS,
-    CONF_NAME,
     CONF_PASSWORD,
     CONF_USERNAME,
     Platform,
@@ -63,12 +62,24 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
 
     # Get config data from HA configuration.yaml
     _LOGGER.debug("DOMAIN=%s", DOMAIN)  
+    _LOGGER.debug("CONF_IP_ADDRESS=%s", CONF_IP_ADDRESS) 
+    _LOGGER.debug("CONF_USERNAME=%s", CONF_USERNAME)     
+    _LOGGER.debug("CONF_PASSWORD=%s", CONF_PASSWORD) 
 
     if (config != None):
-        _LOGGER.debug("config is not null")         
-        ip_address = config[CONF_IP_ADDRESS]
-        username = config[CONF_USERNAME]
-        password = config[CONF_PASSWORD]
+        _LOGGER.debug("config is not null")  
+        if (CONF_IP_ADDRESS in config):       
+            ip_address = config[CONF_IP_ADDRESS]
+        else:
+            _LOGGER.error("ERROR (lupuhome): no IP-Address provided in configuration.yaml")              
+        if (CONF_USERNAME in config):               
+            username = config[CONF_USERNAME]
+        else: 
+            _LOGGER.error("ERROR (lupuhome): no Username provided in configuration.yaml") 
+        if (CONF_PASSWORD in config):                   
+            password = config[CONF_PASSWORD]
+        else:
+            _LOGGER.error("ERROR (lupuhome): no Password provided in configuration.yaml") 
 
 
         # Contact Lupusec Alarm System and Login
