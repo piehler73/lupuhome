@@ -136,12 +136,10 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
 class LupusecSystem:
     """Lupusec System class."""
 
-    def __init__(self, username, password, ip_address, DOMAIN):
+    def __init__(self, username, password, ip_address):
         """Initialize the system."""
         _LOGGER.debug("Lupuhome/__init__.py: LupusecSystem.__init__ callled...")
         self.lupusec = lupulib.Lupusec(username, password, ip_address)
-        self.name = DOMAIN
-
 
 class LupusecDevice(Entity):
     """Representation of a Lupusec device."""
