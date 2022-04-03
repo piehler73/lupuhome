@@ -81,15 +81,15 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
             if CONF_IP_ADDRESS in configs: 
                 _LOGGER.debug("config[sensor] found ip_address=%s", configs[CONF_IP_ADDRESS]) 
             else:
-                _LOGGER.debug("ERROR (lupuhome): no ip_address found in configuration"])  
+                _LOGGER.debug("ERROR (lupuhome): no ip_address found in configuration")  
             if CONF_USERNAME in configs:             
                 _LOGGER.debug("config[sensor] found username=%s", configs[CONF_USERNAME]) 
             else:
-                _LOGGER.debug("ERROR (lupuhome): no username found in configuration"])  
+                _LOGGER.debug("ERROR (lupuhome): no username found in configuration")  
             if CONF_PASSWORD in configs: 
                 _LOGGER.debug("config[sensor] found password=%s", configs[CONF_PASSWORD])
             else:
-                _LOGGER.debug("ERROR (lupuhome): no password found in configuration"])  
+                _LOGGER.debug("ERROR (lupuhome): no password found in configuration")  
 
     if (config != None):
         _LOGGER.debug("config is not null")  
