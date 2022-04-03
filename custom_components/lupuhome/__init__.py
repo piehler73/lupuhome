@@ -8,6 +8,14 @@ import voluptuous as vol
 import lupulib
 import lupulib.constants as CONST
 
+
+# Import specific constants from HA.Lupuhome
+from custom_components.lupuhome.const import (
+    DOMAIN,
+    ATTR_SENSORS,
+)
+
+
 # Import from Home Assistant
 from homeassistant import core
 from homeassistant.components import persistent_notification
@@ -22,6 +30,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import config_validation as cv, discovery
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.components.sensor import PLATFORM_SCHEMA
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,18 +40,13 @@ DOMAIN = "lupuhome"
 NOTIFICATION_ID = "lupusec_notification"
 NOTIFICATION_TITLE = "Lupusec Security Setup"
 
-CONFIG_SCHEMA = vol.Schema(
+# TODO: change cv.string to cv.ip_address later
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
-        DOMAIN: vol.Schema(
-            {
-                vol.Required(CONF_USERNAME): cv.string,
-                vol.Required(CONF_PASSWORD): cv.string,
-                vol.Required(CONF_IP_ADDRESS): cv.string,
-                vol.Optional(CONF_NAME): cv.string,
-            }
-        )
-    },
-    extra=vol.ALLOW_EXTRA,
+        vol.Required(CONF_IP_ADDRESS): cv.string,
+        vol.Required(CONF_USERNAME): cv.string,
+        vol.Required(CONF_PASSWORD): cv.string,
+    }
 )
 
 LUPUSEC_PLATFORMS = [
@@ -51,49 +56,59 @@ LUPUSEC_PLATFORMS = [
 ]
 
 
-
-async def async_setup(hass: core.HomeAssistant, config: dict) -> bool:
+async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
     """Set up the Lupusec HomeAssistant Addon component."""
     
     _LOGGER.debug("Lupuhome/__init__.py: async_setup() callled...")
 
     # Get config data from HA configuration.yaml
-    conf = config[DOMAIN]
-    username = conf[CONF_USERNAME]
-    password = conf[CONF_PASSWORD]
-    ip_address = conf[CONF_IP_ADDRESS]
-    name = conf.get(CONF_NAME)
+    _LOGGER.debug("DOMAIN=%s", DOMAIN)  
 
-    # Contact Lupusec Alarm System and Login
-    try:
-        _LOGGER.debug("try to login to LupusecSystem...")
-        hass.data[DOMAIN] = LupusecSystem(username, password, ip_address, name)
-    except:
-        _LOGGER.error("ERROR: Login to LupusecSystem not succesful.")
+    if (config != None):
+        _LOGGER.debug("config is not null")         
+        ip_address = config[CONF_IP_ADDRESS]
+        username = config[CONF_USERNAME]
+        password = config[CONF_PASSWORD]
 
-        persistent_notification.create(
-            hass,
-            f"Error: <br />You will need to restart hass after fixing.",
-            title=NOTIFICATION_TITLE,
-            notification_id=NOTIFICATION_ID,
-        )
-        return False
 
-    # Load sensors from Lupusec Platform
-    for platform in LUPUSEC_PLATFORMS:
-        discovery.load_platform(hass, platform, DOMAIN, {}, config)
+        # Contact Lupusec Alarm System and Login
+        try:
+            _LOGGER.debug("try to login to LupusecSystem...")
+            _LOGGER.debug("LupusecSystem: ip-address=%s, username=%s, pwd=%s", 
+                ip_address,username, password)
+            hass.data[DOMAIN] = LupusecSystem(username, password, ip_address)
+        except:
+            _LOGGER.error("ERROR: Login to LupusecSystem not succesful.")
 
-    return True
+            persistent_notification.create(
+                hass,
+                f"Error: <br />You will need to restart hass after fixing.",
+                title=NOTIFICATION_TITLE,
+                notification_id=NOTIFICATION_ID,
+            )
+            return False
+
+        # Load sensors from Lupusec Platform
+        _LOGGER.debug("Login to LupusecSystem: successful")                
+        _LOGGER.debug("Setup platforms...")            
+        for platform in LUPUSEC_PLATFORMS:
+            discovery.load_platform(hass, platform, DOMAIN, {}, config)
+
+        return True
+
+    else:
+        _LOGGER.error("ERROR (lupuhome): configuration is missing.")
+        return False   
 
 
 class LupusecSystem:
     """Lupusec System class."""
 
-    def __init__(self, username, password, ip_address, name):
+    def __init__(self, username, password, ip_address, DOMAIN):
         """Initialize the system."""
         _LOGGER.debug("Lupuhome/__init__.py: LupusecSystem.__init__ callled...")
         self.lupusec = lupulib.Lupusec(username, password, ip_address)
-        self.name = name
+        self.name = DOMAIN
 
 
 class LupusecDevice(Entity):
