@@ -77,7 +77,7 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
             if "platform" in configs: 
                 _LOGGER.debug("config[sensor] found platform=%s", configs["platform"])
             else:
-                _LOGGER.debug("ERROR (lupuhome): no platform found in configuration")                _                        
+                _LOGGER.debug("ERROR (lupuhome): no platform found in configuration")                      
             if CONF_IP_ADDRESS in configs: 
                 _LOGGER.debug("config[sensor] found ip_address=%s", configs[CONF_IP_ADDRESS]) 
             else:
