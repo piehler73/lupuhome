@@ -69,15 +69,15 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
     if (config != None):
         _LOGGER.debug("config is not null")  
         if (CONF_IP_ADDRESS in config):       
-            ip_address = config[CONF_IP_ADDRESS]
+            ip_address = config.get(CONF_IP_ADDRESS)
         else:
             _LOGGER.error("ERROR (lupuhome): no IP-Address provided in configuration.yaml")              
         if (CONF_USERNAME in config):               
-            username = config[CONF_USERNAME]
+            username = config.get(CONF_USERNAME)
         else: 
             _LOGGER.error("ERROR (lupuhome): no Username provided in configuration.yaml") 
         if (CONF_PASSWORD in config):                   
-            password = config[CONF_PASSWORD]
+            password = config.get(CONF_PASSWORD)
         else:
             _LOGGER.error("ERROR (lupuhome): no Password provided in configuration.yaml") 
 
