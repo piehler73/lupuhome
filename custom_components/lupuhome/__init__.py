@@ -61,7 +61,9 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
     _LOGGER.debug("Lupuhome/__init__.py: async_setup() callled...")
 
     # Get config data from HA configuration.yaml
-    # ToDo: check for better solution with 
+    # ToDo: check for better solution with voluptuous and config_validator
+    # ToDO: check how to get data from configuration.yaml
+    # ToDo: check how to validate if config-data is filled correctly
     _LOGGER.debug("DOMAIN=%s", DOMAIN)  
     _LOGGER.debug("CONF_IP_ADDRESS=%s", CONF_IP_ADDRESS) 
     _LOGGER.debug("CONF_USERNAME=%s", CONF_USERNAME)     
@@ -134,7 +136,8 @@ class LupusecSystem:
     def __init__(self, username, password, ip_address):
         """Initialize the system."""
         _LOGGER.debug("Lupuhome/__init__.py: LupusecSystem.__init__ callled...")
-        self.lupusec = lupulib.Lupusec(username, password, ip_address)
+        self.lupusec = lupulib.LupusecAPI(username, password, ip_address)
+
 
 class LupusecDevice(Entity):
     """Representation of a Lupusec device."""
