@@ -69,7 +69,10 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
     _LOGGER.debug("config=%s", str(config)) 
     for key, value in config.items():        
         #print(key, ' : ', value)
-        _LOGGER.debug("key=%s, value=%s", key, value) 
+        _LOGGER.debug("key=%s, value=%s", key, value)
+
+    if (config["sensor"] != None):
+         _LOGGER.debug("config[sensor]=%s", config["sensor"])       
 
     if (config != None):
         _LOGGER.debug("config is not null")  
