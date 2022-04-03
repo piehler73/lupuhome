@@ -61,18 +61,13 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
     _LOGGER.debug("Lupuhome/__init__.py: async_setup() callled...")
 
     # Get config data from HA configuration.yaml
+    # ToDo: check for better solution with 
     _LOGGER.debug("DOMAIN=%s", DOMAIN)  
     _LOGGER.debug("CONF_IP_ADDRESS=%s", CONF_IP_ADDRESS) 
     _LOGGER.debug("CONF_USERNAME=%s", CONF_USERNAME)     
     _LOGGER.debug("CONF_PASSWORD=%s", CONF_PASSWORD) 
     _LOGGER.debug("LEN(config)=%s", len(config)) 
-    _LOGGER.debug("config=%s", str(config)) 
-    for key, value in config.items():        
-        #print(key, ' : ', value)
-        _LOGGER.debug("key=%s, value=%s", key, value)
-
     if (config["sensor"] != None):
-        _LOGGER.debug("config[sensor]=%s", config["sensor"])
         for configs in config["sensor"]:
             if "platform" in configs: 
                 _LOGGER.debug("config[sensor] found platform=%s", configs["platform"])
