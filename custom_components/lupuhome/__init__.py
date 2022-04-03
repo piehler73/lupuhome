@@ -76,38 +76,31 @@ async def async_setup(hass: core.HomeAssistant, config: ConfigType) -> bool:
         for configs in config["sensor"]:
             if "platform" in configs: 
                 _LOGGER.debug("config[sensor] found platform=%s", configs["platform"])
+                if (configs["platform"] == DOMAIN):
+                    ip_address = configs[CONF_IP_ADDRESS]
+                    username = configs[CONF_USERNAME]
+                    password = configs[CONF_PASSWORD]     
             else:
-                _LOGGER.debug("ERROR (lupuhome): no platform found in configuration")                      
-            if CONF_IP_ADDRESS in configs: 
-                _LOGGER.debug("config[sensor] found ip_address=%s", configs[CONF_IP_ADDRESS]) 
-            else:
-                _LOGGER.debug("ERROR (lupuhome): no ip_address found in configuration")  
-            if CONF_USERNAME in configs:             
-                _LOGGER.debug("config[sensor] found username=%s", configs[CONF_USERNAME]) 
-            else:
-                _LOGGER.debug("ERROR (lupuhome): no username found in configuration")  
-            if CONF_PASSWORD in configs: 
-                _LOGGER.debug("config[sensor] found password=%s", configs[CONF_PASSWORD])
-            else:
-                _LOGGER.debug("ERROR (lupuhome): no password found in configuration")  
+                _LOGGER.debug("platform=%s: not relevant for Lupuhome", configs["platform"])                      
+
 
     if (config != None):
         _LOGGER.debug("config is not null")  
-        if (CONF_IP_ADDRESS in config):       
+        #if (CONF_IP_ADDRESS in config):       
             #ip_address = config.get(CONF_IP_ADDRESS)
-            ip_address = config.get(DOMAIN).get(CONF_IP_ADDRESS)            
-        else:
-            _LOGGER.error("ERROR (lupuhome): no IP-Address provided in configuration.yaml")              
-        if (CONF_USERNAME in config):               
+            #ip_address = config.get(DOMAIN).get(CONF_IP_ADDRESS)            
+        #else:
+            #_LOGGER.error("ERROR (lupuhome): no IP-Address provided in configuration.yaml")              
+        #if (CONF_USERNAME in config):               
             #username = config.get(CONF_USERNAME)
-            username = config.get(DOMAIN).get(CONF_USERNAME)             
-        else: 
-            _LOGGER.error("ERROR (lupuhome): no Username provided in configuration.yaml") 
-        if (CONF_PASSWORD in config):                   
+            #username = config.get(DOMAIN).get(CONF_USERNAME)             
+        #else: 
+            #_LOGGER.error("ERROR (lupuhome): no Username provided in configuration.yaml") 
+        #if (CONF_PASSWORD in config):                   
             #password = config.get(CONF_PASSWORD)
-            password = config.get(DOMAIN).get(CONF_PASSWORD) 
-        else:
-            _LOGGER.error("ERROR (lupuhome): no Password provided in configuration.yaml") 
+            #password = config.get(DOMAIN).get(CONF_PASSWORD) 
+        #else:
+            #_LOGGER.error("ERROR (lupuhome): no Password provided in configuration.yaml") 
 
 
         # Contact Lupusec Alarm System and Login
